@@ -106,11 +106,8 @@ export class Region {
         };
 
         // Computing the label and link
-        const textContent =
-            this.computeLinkAndLabel(this.label).length > 1
-                ? this.computeLinkAndLabel(this.label)[1]
-                : this.computeLinkAndLabel(this.label)[0];
-        const linkContent = this.computeLinkAndLabel(this.label)[0];
+        const [linkContent, textContent, hasLink] =
+            this.computeLinkAndLabel(this.label);
 
         if (this.size !== undefined) {
             attributes["font-size"] = this.size;
@@ -134,7 +131,7 @@ export class Region {
         glowEl.textContent = textContent;
 
         //Only create a link if there is one.
-        if (textContent !== linkContent) {
+        if (hasLink) {
             //Add in clickable link for Obsidian
             const labelLinkEl = gEl.createSvg("a", {
                 attr: {
@@ -175,11 +172,13 @@ export class Region {
     computeLinkAndLabel(label: string): [string, string] {
         let link = label;
         let display = label;
+        let hasLink = false
         if (label.includes("|")) {
             const parts = label.split("|");
             link = parts[0];
             display = parts[1];
+            hasLink = true
         }
-        return [link, display];
+        return [link, display, hasLink];
     }
 }
