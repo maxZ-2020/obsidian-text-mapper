@@ -1,6 +1,6 @@
 import { SVGElement } from "./constants";
 import { Point, Orientation } from "./orientation";
-import { NamespaceFunction } from "./constants";
+import { NamespaceFunction, OBSIDIAN_LINK } from "./constants";
 
 export class Region {
     x: number;
@@ -106,7 +106,7 @@ export class Region {
         };
 
         // Computing the label and link
-        const [linkContent, textContent, hasLink] =
+        const [linkContent, textContent] =
             this.computeLinkAndLabel(this.label);
 
         if (this.size !== undefined) {
@@ -130,9 +130,7 @@ export class Region {
         });
         glowEl.textContent = textContent;
 
-        //Only create a link if there is one.
-        if (hasLink) {
-            //Add in clickable link for Obsidian
+        if (linkContent != null) {
             const labelLinkEl = gEl.createSvg("a", {
                 attr: {
                     "data-tooltip-position": "top",
@@ -169,16 +167,19 @@ export class Region {
         }
     }
 
-    computeLinkAndLabel(label: string): [string, string] {
-        let link = label;
-        let display = label;
-        let hasLink = false
-        if (label.includes("|")) {
-            const parts = label.split("|");
-            link = parts[0];
-            display = parts[1];
-            hasLink = true
+    computeLinkAndLabel(text: string): [string, string] {
+        if (!OBSIDIAN_LINK.test(text)) {
+            return [null, text];
         }
-        return [link, display, hasLink];
+
+        const match = text.match(OBSIDIAN_LINK);
+        const label = match[2];
+        const link = match[1];
+
+        if (label == null) {
+            return [link, link]
+        }
+
+        return  [link, label];
     }
 }

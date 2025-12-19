@@ -8,6 +8,7 @@ export const LABEL_REGEX = /^label\s+(.*)/;
 export const OPTION_REGEX = /^option\s+(.*)/;
 export const HEX_REGEX = /^(-?\d\d)(-?\d\d)(\d\d)?\s+(.*)/;
 export const HEX_LABEL_REGEX = /["]([^"]+)["]\s*(\d+)?/;
+export const OBSIDIAN_LINK = /\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/;
 export const SPLINE_REGEX =
     /^(-?\d\d-?\d\d(?:\d\d)?(?:--?\d\d-?\d\d(?:\d\d)?)+)\s+(\S+)\s*(?:["“](.+)["”])?\s*(left|right)?\s*(\d+%)?/;
 export const SPLINE_ELEMENT_SPLIT_REGEX = /^(-?\d\d-?\d\d)-?(.* )/;
